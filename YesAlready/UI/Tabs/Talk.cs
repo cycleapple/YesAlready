@@ -14,7 +14,7 @@ public static class Talk
         var newStyle = new Vector2(style.ItemSpacing.X / 2, style.ItemSpacing.Y);
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, newStyle);
 
-        if (ImGuiX.IconButton(FontAwesomeIcon.Plus, "Add new entry"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.Plus, "新增項目"))
         {
             var newNode = new TalkEntryNode { Enabled = false, TargetText = "Your text goes here" };
             TalkRootFolder.Children.Add(newNode);
@@ -22,7 +22,7 @@ public static class Talk
         }
 
         ImGui.SameLine();
-        if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "Add current target as a new entry"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "將目前目標新增為項目"))
         {
             var target = Svc.Targets.Target;
             if (target != null)
@@ -37,9 +37,9 @@ public static class Talk
         }
 
         ImGui.SameLine();
-        if (ImGuiX.IconButton(FontAwesomeIcon.FolderPlus, "Add folder"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.FolderPlus, "新增資料夾"))
         {
-            var newNode = new TextFolderNode { Name = "Untitled folder" };
+            var newNode = new TextFolderNode { Name = "未命名資料夾" };
             TalkRootFolder.Children.Add(newNode);
             C.Save();
         }
@@ -48,16 +48,16 @@ public static class Talk
         sb.AppendLine("Enter into the input all or part of the selected taret name while in a talk dialog.");
         sb.AppendLine("For example: \"Moyce\" in the Crystarium.");
         sb.AppendLine();
-        sb.AppendLine("Alternatively, wrap your text in forward slashes to use as a regex.");
+        sb.AppendLine("也可以用斜線包住文字，將其視為正規表示式。");
         sb.AppendLine("As such: \"/(Moyce|Eirikur)/\"");
         sb.AppendLine();
         sb.AppendLine("To skip your retainers, add the summoning bell.");
         sb.AppendLine();
-        sb.AppendLine("Right click a line to view options.");
-        sb.AppendLine("Double click an entry for quick enable/disable.");
-        sb.AppendLine("Ctrl-Shift right click a line to delete it and any children.");
+        sb.AppendLine("在項目上按右鍵可檢視設定。");
+        sb.AppendLine("雙擊項目可快速啟用或停用。");
+        sb.AppendLine("按住 Ctrl+Shift 並在項目上按右鍵，可刪除該項目及其子項目。");
         sb.AppendLine();
-        sb.AppendLine("Currently supported list addons:");
+        sb.AppendLine("目前支援的清單 addon：");
         sb.AppendLine("  - Talk");
 
         ImGui.SameLine();
@@ -84,7 +84,7 @@ public static class Talk
             ImGui.PopStyleColor();
 
         if (!validTarget)
-            ImGuiX.TextTooltip("Invalid Target Regex");
+            ImGuiX.TextTooltip("目標正規表示式無效");
 
         if (ImGui.IsItemHovered())
         {
@@ -123,7 +123,7 @@ public static class Talk
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, spacing);
 
         var enabled = node.Enabled;
-        if (ImGui.Checkbox("Enabled", ref enabled))
+        if (ImGui.Checkbox("啟用", ref enabled))
         {
             node.Enabled = enabled;
             C.Save();
@@ -132,7 +132,7 @@ public static class Talk
         var trashAltWidth = ImGuiX.GetIconButtonWidth(FontAwesomeIcon.TrashAlt);
 
         ImGui.SameLine(ImGui.GetContentRegionMax().X - trashAltWidth);
-        if (ImGuiX.IconButton(FontAwesomeIcon.TrashAlt, "Delete"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.TrashAlt, "刪除"))
         {
             if (C.TryFindParent(node, out var parentNode))
             {
@@ -144,7 +144,7 @@ public static class Talk
         var searchPlusWidth = ImGuiX.GetIconButtonWidth(FontAwesomeIcon.SearchPlus);
 
         ImGui.SameLine(ImGui.GetContentRegionMax().X - searchPlusWidth - trashAltWidth - spacing.X);
-        if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "Fill with current target"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "填入目前目標"))
         {
             var target = Svc.Targets.Target;
             var name = target?.Name?.TextValue ?? string.Empty;

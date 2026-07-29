@@ -47,15 +47,15 @@ internal class MainWindow : Window
     {
         if (Service.BlockListHandler.Locked)
         {
-            ECommons.ImGuiMethods.ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, $"Yes Already function is paused because following plugins have requested it: {Service.BlockListHandler.BlockList.Print()}");
-            if (ImGui.Button("Force unlock"))
+            ECommons.ImGuiMethods.ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, $"下列插件要求暫停 YesAlready：{Service.BlockListHandler.BlockList.Print()}");
+            if (ImGui.Button("強制解除鎖定"))
             {
                 Service.BlockListHandler.BlockList.Clear();
             }
         }
 
         var enabled = C.Enabled;
-        if (ImGui.Checkbox("Enabled", ref enabled))
+        if (ImGui.Checkbox("啟用", ref enabled))
         {
             C.Enabled = enabled;
             C.Save();
@@ -65,15 +65,15 @@ internal class MainWindow : Window
         if (tabs)
         {
             //coreTab.Draw();
-            DisplayGenericOptions("YesNo", YesNo.DrawButtons, () => DisplayNodes(YesNoRootFolder, () => new TextEntryNode() { Enabled = false, Text = "Add some text here!" }));
-            DisplayGenericOptions("Ok", Ok.DrawButtons, () => DisplayNodes(OkRootFolder, () => new OkEntryNode() { Enabled = false, Text = "Add some text here!" }));
-            DisplayGenericOptions("List", Lists.DrawButtons, () => DisplayNodes(ListRootFolder, () => new ListEntryNode() { Enabled = false, Text = "Add some text here!" }));
-            DisplayGenericOptions("Talk", Talk.DrawButtons, () => DisplayNodes(TalkRootFolder, () => new TalkEntryNode { Enabled = false, TargetText = "Your text goes here" }));
-            DisplayGenericOptions("Numerics", Numerics.DrawButtons, () => DisplayNodes(NumericsRootFolder, () => new NumericsEntryNode() { Enabled = false, Text = "Add some text here!" }));
+            DisplayGenericOptions("是／否##YesNo", YesNo.DrawButtons, () => DisplayNodes(YesNoRootFolder, () => new TextEntryNode() { Enabled = false, Text = "Add some text here!" }));
+            DisplayGenericOptions("確定##Ok", Ok.DrawButtons, () => DisplayNodes(OkRootFolder, () => new OkEntryNode() { Enabled = false, Text = "Add some text here!" }));
+            DisplayGenericOptions("清單##List", Lists.DrawButtons, () => DisplayNodes(ListRootFolder, () => new ListEntryNode() { Enabled = false, Text = "Add some text here!" }));
+            DisplayGenericOptions("對話##Talk", Talk.DrawButtons, () => DisplayNodes(TalkRootFolder, () => new TalkEntryNode { Enabled = false, TargetText = "Your text goes here" }));
+            DisplayGenericOptions("數值##Numerics", Numerics.DrawButtons, () => DisplayNodes(NumericsRootFolder, () => new NumericsEntryNode() { Enabled = false, Text = "Add some text here!" }));
             Bothers.Draw();
-            DisplayGenericOptions("Custom", Custom.DrawButtons, () => DisplayNodes(C.CustomRootFolder, () => new CustomEntryNode() { Enabled = false, Text = "Add some text here!" }));
+            DisplayGenericOptions("自訂##Custom", Custom.DrawButtons, () => DisplayNodes(C.CustomRootFolder, () => new CustomEntryNode() { Enabled = false, Text = "Add some text here!" }));
             DisplayMiscOptions();
-            using (var tab = ImRaii.TabItem("Log"))
+            using (var tab = ImRaii.TabItem("日誌##Log"))
                 if (tab)
                     InternalLog.PrintImgui();
         }
@@ -93,7 +93,7 @@ internal class MainWindow : Window
     private readonly XivChatType? selectedChannel;
     private void DisplayMiscOptions()
     {
-        using var tab = ImRaii.TabItem("Settings");
+        using var tab = ImRaii.TabItem("設定##Settings");
         if (!tab) return;
         using (ImRaii.PushId("Server info bar"))
         {
@@ -114,7 +114,7 @@ internal class MainWindow : Window
                     }
                     config.Call("QueueSave", []);
                 }
-                ImGuiX.IndentedTextColored($"Display the status of the {Name} in the Server Info Bar (DTR Bar). Clicking toggles the plugin.");
+                ImGuiX.IndentedTextColored($"在伺服器資訊列（DTR）顯示 {Name} 狀態；點擊可切換插件。");
             }
             catch (Exception e)
             {
@@ -141,7 +141,7 @@ internal class MainWindow : Window
                 }
             }
         }
-        ImGuiX.IndentedTextColored($"Select the chat channel for {Name} messages to output to.");
+        ImGuiX.IndentedTextColored($"選擇 {Name} 訊息的輸出聊天頻道。");
     }
 
     // ====================================================================================================
@@ -198,7 +198,7 @@ internal class MainWindow : Window
             ImGui.PopStyleColor();
 
         if (!validRegex)
-            ImGuiX.TextTooltip("Invalid Text Regex");
+            ImGuiX.TextTooltip("文字正規表示式無效");
 
         if (ImGui.IsItemHovered())
         {
@@ -303,7 +303,7 @@ internal class MainWindow : Window
             {
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, spacing);
 
-                if (ImGuiX.IconButton(FontAwesomeIcon.Plus, "Add entry"))
+                if (ImGuiX.IconButton(FontAwesomeIcon.Plus, "新增項目"))
                 {
                     if (root == YesNoRootFolder)
                     {
@@ -320,7 +320,7 @@ internal class MainWindow : Window
                 }
 
                 ImGui.SameLine();
-                if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "Add last seen as new entry"))
+                if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "將最近偵測項目新增為項目"))
                 {
                     if (root == YesNoRootFolder)
                     {
@@ -353,16 +353,16 @@ internal class MainWindow : Window
                 }
 
                 ImGui.SameLine();
-                if (ImGuiX.IconButton(FontAwesomeIcon.FolderPlus, "Add folder"))
+                if (ImGuiX.IconButton(FontAwesomeIcon.FolderPlus, "新增資料夾"))
                 {
-                    var newNode = new TextFolderNode { Name = "Untitled folder" };
+                    var newNode = new TextFolderNode { Name = "未命名資料夾" };
                     folderNode.Children.Add(newNode);
                     C.Save();
                 }
 
                 var trashWidth = ImGuiX.GetIconButtonWidth(FontAwesomeIcon.TrashAlt);
                 ImGui.SameLine(ImGui.GetContentRegionMax().X - trashWidth);
-                if (ImGuiX.IconButton(FontAwesomeIcon.TrashAlt, "Delete"))
+                if (ImGuiX.IconButton(FontAwesomeIcon.TrashAlt, "刪除"))
                 {
                     if (C.TryFindParent(node, out var parentNode))
                     {

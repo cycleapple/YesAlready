@@ -1,10 +1,10 @@
 {
   "Author": "daemitus, croizat",
   "Name": "YesAlready",
-  "Punchline": "Clicks Yes in various dialogs you've specified.",
-  "Description": "Tired of clicking yes in Praetorium? Can't stand using keys in dungeons? Well do I have the plugin for you! Yes Already is specifically designed to click all the annoying dialogs you've grown accustomed facerolling. Just enter the dialog text, and you'll never see it again! Also works with /regex/ and has several built-in modules for dialogs that aren't quite yes/no prompts but act like it (like desynth).",
+  "Punchline": "自動處理指定的確認對話框。",
+  "Description": "依照你設定的文字自動處理確認、確定、清單、對話與數值輸入視窗。支援 /regex/，並包含多個常用內建模組。",
   "InternalName": "YesAlready",
-  "RepoUrl": "https://github.com/PunishXIV/YesAlready/",
+  "RepoUrl": "https://github.com/cycleapple/YesAlready/",
   "IconUrl": "https://github.com/daemitus/YesAlready/raw/master/res/icon.png",
   "ApplicableVersion": "any",
   "Tags": [

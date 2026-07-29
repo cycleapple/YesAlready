@@ -14,7 +14,7 @@ public static class Numerics
         var newStyle = new Vector2(style.ItemSpacing.X / 2, style.ItemSpacing.Y);
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, newStyle);
 
-        if (ImGuiX.IconButton(FontAwesomeIcon.Plus, "Add new entry"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.Plus, "新增項目"))
         {
             var newNode = new NumericsEntryNode { Enabled = false, Text = "Your text goes here" };
             NumericsRootFolder.Children.Add(newNode);
@@ -22,7 +22,7 @@ public static class Numerics
         }
 
         ImGui.SameLine();
-        if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "Add last seen as new entry"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.SearchPlus, "將最近偵測項目新增為項目"))
         {
             var io = ImGui.GetIO();
             var createFolder = io.KeyShift;
@@ -32,30 +32,30 @@ public static class Numerics
         }
 
         ImGui.SameLine();
-        if (ImGuiX.IconButton(FontAwesomeIcon.FolderPlus, "Add folder"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.FolderPlus, "新增資料夾"))
         {
-            var newNode = new TextFolderNode { Name = "Untitled folder" };
+            var newNode = new TextFolderNode { Name = "未命名資料夾" };
             NumericsRootFolder.Children.Add(newNode);
             C.Save();
         }
 
         var sb = new StringBuilder();
-        sb.AppendLine("Enter into the input all or part of the text inside a dialog.");
-        sb.AppendLine("For example: \"Remove how many from stack?\" for the split stack dialog.");
+        sb.AppendLine("輸入對話框中的完整或部分文字。");
+        sb.AppendLine("例如：拆分物品堆疊時顯示的數量詢問文字。");
         sb.AppendLine();
-        sb.AppendLine("Alternatively, wrap your text in forward slashes to use as a regex.");
+        sb.AppendLine("也可以用斜線包住文字，將其視為正規表示式。");
         sb.AppendLine("As such: \"/Remove .*/\"");
         sb.AppendLine();
-        sb.AppendLine("If it matches, the ok button will be clicked.");
+        sb.AppendLine("符合時會自動按下確定按鈕。");
         sb.AppendLine();
-        sb.AppendLine("Right click a line to view options.");
-        sb.AppendLine("Double click an entry for quick enable/disable.");
-        sb.AppendLine("Ctrl-Shift right click a line to delete it and any children.");
+        sb.AppendLine("在項目上按右鍵可檢視設定。");
+        sb.AppendLine("雙擊項目可快速啟用或停用。");
+        sb.AppendLine("按住 Ctrl+Shift 並在項目上按右鍵，可刪除該項目及其子項目。");
         sb.AppendLine();
         sb.AppendLine("\"Add last seen as new entry\" button modifiers:");
-        sb.AppendLine("   Shift-Click to add to a new or first existing folder.");
+        sb.AppendLine("   Shift+點擊：新增至新資料夾或第一個現有資料夾。");
         sb.AppendLine();
-        sb.AppendLine("Currently supported numeric addons:");
+        sb.AppendLine("目前支援的數值 addon：");
         sb.AppendLine("  - InputNumeric");
 
         ImGui.SameLine();
@@ -70,7 +70,7 @@ public static class Numerics
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, spacing);
 
         var enabled = node.Enabled;
-        if (ImGui.Checkbox("Enabled", ref enabled))
+        if (ImGui.Checkbox("啟用", ref enabled))
         {
             node.Enabled = enabled;
             C.Save();
@@ -79,7 +79,7 @@ public static class Numerics
         var trashAltWidth = ImGuiX.GetIconButtonWidth(FontAwesomeIcon.TrashAlt);
 
         ImGui.SameLine(ImGui.GetContentRegionMax().X - trashAltWidth);
-        if (ImGuiX.IconButton(FontAwesomeIcon.TrashAlt, "Delete"))
+        if (ImGuiX.IconButton(FontAwesomeIcon.TrashAlt, "刪除"))
         {
             if (C.TryFindParent(node, out var parentNode))
             {
@@ -98,7 +98,7 @@ public static class Numerics
         ImGui.PopStyleVar(); // ItemSpacing
 
         var percent = node.IsPercent;
-        if (ImGui.Checkbox("Percentage", ref percent))
+        if (ImGui.Checkbox("百分比", ref percent))
         {
             node.IsPercent = percent;
             C.Save();
@@ -106,7 +106,7 @@ public static class Numerics
         if (node.IsPercent)
         {
             var percentage = node.Percentage;
-            if (ImGui.SliderInt($"Percent of Max##{node.GetHashCode()}", ref percentage, 0, 100, "%d%%", ImGuiSliderFlags.AlwaysClamp))
+            if (ImGui.SliderInt($"最大值百分比##{node.GetHashCode()}", ref percentage, 0, 100, "%d%%", ImGuiSliderFlags.AlwaysClamp))
             {
                 if (percentage < 0) node.Percentage = 0;
                 else node.Percentage = percentage;
@@ -118,7 +118,7 @@ public static class Numerics
         else
         {
             var quantity = node.Quantity;
-            if (ImGui.InputInt($"Default Quantity##{node.GetHashCode()}", ref quantity))
+            if (ImGui.InputInt($"預設數量##{node.GetHashCode()}", ref quantity))
             {
                 if (quantity < 1) node.Quantity = 1;
                 else node.Quantity = quantity;
@@ -127,7 +127,7 @@ public static class Numerics
         }
 
         //var targetRestricted = node.TargetRestricted;
-        //if (ImGui.Checkbox("Target Restricted", ref targetRestricted))
+        //if (ImGui.Checkbox("限制目標", ref targetRestricted))
         //{
         //    node.TargetRestricted = targetRestricted;
         //    C.Save();
@@ -136,7 +136,7 @@ public static class Numerics
         //var searchPlusWidth = Utils.ImGuiEx.GetIconButtonWidth(FontAwesomeIcon.SearchPlus);
 
         //ImGui.SameLine(ImGui.GetContentRegionMax().X - searchPlusWidth);
-        //if (Utils.ImGuiEx.IconButton(FontAwesomeIcon.SearchPlus, "Fill with current target"))
+        //if (Utils.ImGuiEx.IconButton(FontAwesomeIcon.SearchPlus, "填入目前目標"))
         //{
         //    var target = Svc.Targets.Target;
         //    var name = target?.Name?.TextValue ?? string.Empty;
