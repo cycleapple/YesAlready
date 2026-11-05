@@ -1,0 +1,8 @@
+[
+  {
+    "path": "PunishLib",
+    "baseCommit": "570b57b09f4f6d5978944d002a5a528b605e297e",
+    "patch": "patches/0b680675a0e45218.patch",
+    "sha256": "973920bd57437056d705281479c51e47e7ee04a29fb42220987c0a8011e768aa"
+  }
+]

@@ -135,7 +135,7 @@ public abstract class TextMatchingFeature : AddonFeature
     {
         if (node is IZoneRestrictedNode { ZoneRestricted: true } zoneNode)
         {
-            if (GenericHelpers.GetRow<TerritoryType>(Player.Territory) is { PlaceName.ValueNullable.Name: var name })
+            if (GenericHelpers.GetRow<TerritoryType>(Player.Territory.RowId) is { PlaceName.ValueNullable.Name: var name })
             {
                 if (!EntryMatchesText(zoneNode.ZoneText, name.ToString(), zoneNode.ZoneIsRegex))
                 {

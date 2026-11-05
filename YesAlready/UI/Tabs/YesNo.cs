@@ -35,7 +35,7 @@ public class YesNo
             var createFolder = io.KeyShift;
             var selectNo = io.KeyAlt;
 
-            Configuration.CreateNode<TextEntryNode>(C.RootFolder, createFolder, zoneRestricted ? GenericHelpers.GetRow<TerritoryType>(Player.Territory)?.Name.ExtractText() : null, !selectNo);
+            Configuration.CreateNode<TextEntryNode>(C.RootFolder, createFolder, zoneRestricted ? GenericHelpers.GetRow<TerritoryType>(Player.Territory.RowId)?.Name.ExtractText() : null, !selectNo);
             C.Save();
         }
 
